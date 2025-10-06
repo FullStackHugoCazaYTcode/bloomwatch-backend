@@ -7,7 +7,13 @@ from nasa_api import NASADataFetcher
 from bloom_detector import BloomDetector
 
 app = Flask(__name__, static_folder='../frontend')
-CORS(app)  # Permitir peticiones desde el frontend
+CORS(app, resources={
+    r"/api/*": {
+        "origins": "*",
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"]
+    }
+})
 
 # Inicializar módulos
 nasa_fetcher = NASADataFetcher()
@@ -259,4 +265,5 @@ if __name__ == '__main__':
     print("🌸 BloomWatch Server Starting...")
     print(f"📍 Access at: http://0.0.0.0:{port}")
     print("🚀 Enhanced with Conservation & Climate Analysis")
+
     app.run(host='0.0.0.0', port=port, debug=False)
